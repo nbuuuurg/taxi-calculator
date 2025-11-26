@@ -11,10 +11,6 @@ interface BookingFormProps {
   setDate: (date: Date) => void;
   isRoundTrip: boolean;
   setIsRoundTrip: (val: boolean) => void;
-  manualDistance: number;
-  setManualDistance: (val: number) => void;
-  useManualDistance: boolean;
-  setUseManualDistance: (val: boolean) => void;
 }
 
 // Define interface for Google Maps Place Prediction since we don't have types
@@ -165,11 +161,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
   date,
   setDate,
   isRoundTrip,
-  setIsRoundTrip,
-  manualDistance,
-  setManualDistance,
-  useManualDistance,
-  setUseManualDistance
+  setIsRoundTrip
 }) => {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
@@ -239,34 +231,6 @@ const BookingForm: React.FC<BookingFormProps> = ({
             <span className={`text-sm font-medium ${isRoundTrip ? 'text-slate-900' : 'text-slate-500'}`}>Aller / Retour</span>
           </label>
         </div>
-
-        {/* Manual Distance Override */}
-        <div className="pt-2 border-t border-slate-100">
-           <div className="flex items-center justify-between mb-2">
-              <label className="text-xs text-slate-400">Calcul automatique impossible ?</label>
-              <button 
-                onClick={() => setUseManualDistance(!useManualDistance)}
-                className="text-xs text-amber-600 hover:text-amber-700 underline font-medium"
-              >
-                {useManualDistance ? 'Utiliser la carte' : 'Saisir distance manuelle'}
-              </button>
-           </div>
-           
-           {useManualDistance && (
-             <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">km</span>
-                <input 
-                  type="number" 
-                  min="0"
-                  step="0.1"
-                  value={manualDistance}
-                  onChange={(e) => setManualDistance(parseFloat(e.target.value) || 0)}
-                  className="w-full pl-4 pr-10 py-2 bg-amber-50 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none text-amber-900 font-medium"
-                />
-             </div>
-           )}
-        </div>
-
       </div>
     </div>
   );

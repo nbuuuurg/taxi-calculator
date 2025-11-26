@@ -11,20 +11,6 @@ const App: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [calculatedDistance, setCalculatedDistance] = useState(0);
-  
-  // Manual distance override
-  const [useManualDistance, setUseManualDistance] = useState(false);
-  const [manualDistance, setManualDistance] = useState(0);
-
-  // Determine actual distance to use for price
-  const activeDistance = useManualDistance ? manualDistance : calculatedDistance;
-
-  // Sync manual distance if user switches and calc is 0
-  useEffect(() => {
-    if (useManualDistance && manualDistance === 0 && calculatedDistance > 0) {
-      setManualDistance(calculatedDistance);
-    }
-  }, [useManualDistance]);
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-900 bg-slate-50">
@@ -65,10 +51,6 @@ const App: React.FC = () => {
               setDate={setDate}
               isRoundTrip={isRoundTrip}
               setIsRoundTrip={setIsRoundTrip}
-              manualDistance={manualDistance}
-              setManualDistance={setManualDistance}
-              useManualDistance={useManualDistance}
-              setUseManualDistance={setUseManualDistance}
             />
             
             <div className="hidden lg:block bg-amber-50 p-6 rounded-2xl border border-amber-100">
@@ -89,22 +71,18 @@ const App: React.FC = () => {
               <MapViewer 
                 origin={origin}
                 destination={destination}
-                onDistanceCalculated={(km) => {
-                  setCalculatedDistance(km);
-                  // If we get a real calculation, switch off manual mode automatically for better UX
-                  if (km > 0) setUseManualDistance(false);
-                }}
+                onDistanceCalculated={setCalculatedDistance}
                 className="h-full shadow-lg border-2 border-white"
               />
             </div>
 
             {/* Estimate Section */}
             <div className="flex-1">
-               {activeDistance > 0 ? (
+               {calculatedDistance > 0 ? (
                  <PriceEstimator 
                     origin={origin}
                     destination={destination}
-                    distanceKm={activeDistance}
+                    distanceKm={calculatedDistance}
                     date={date}
                     isRoundTrip={isRoundTrip}
                  />
@@ -112,7 +90,7 @@ const App: React.FC = () => {
                  <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center h-full flex flex-col items-center justify-center text-slate-400">
                     <Car className="w-16 h-16 mb-4 opacity-20" />
                     <p className="text-lg font-medium text-slate-600">En attente de trajet...</p>
-                    <p className="text-sm">Remplissez les adresses ou saisissez une distance pour voir l'estimation.</p>
+                    <p className="text-sm">Remplissez les adresses pour voir l'estimation.</p>
                  </div>
                )}
             </div>
