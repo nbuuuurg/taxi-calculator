@@ -26,7 +26,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({ isOpen, onClose, pr
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://n8n.srv1150184.hstgr.cloud/webhook-test/c274842a-4da4-40c1-9d0d-7b985038129b', {
+      const response = await fetch('https://n8n.srv1150184.hstgr.cloud/webhook-test/e53f2b74-8ed7-4087-bdc7-abbd9b2b14c3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
