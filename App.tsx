@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import MapViewer from './components/MapViewer';
 import PriceEstimator from './components/PriceEstimator';
-import { Car, Phone, ArrowRight } from 'lucide-react';
+import { Car, Phone, ArrowRight, ImageOff } from 'lucide-react';
 
 const App: React.FC = () => {
   // State
@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [calculatedDistance, setCalculatedDistance] = useState(0);
+  const [logoError, setLogoError] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-900 bg-slate-50">
@@ -32,7 +33,20 @@ const App: React.FC = () => {
             {/* Arrow and Partner Logo */}
             <div className="flex items-center gap-3">
               <ArrowRight className="text-slate-300" size={24} />
-              <img src="/logo.png" alt="Le Taxi de Stef" className="h-12 w-auto object-contain" />
+              
+              {!logoError ? (
+                <img 
+                  src="/logo.png" 
+                  alt="Le Taxi de Stef" 
+                  className="h-12 w-auto object-contain"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <div className="h-12 flex items-center gap-2 px-3 py-1 bg-slate-100 border border-slate-200 border-dashed rounded text-slate-400 text-xs">
+                  <ImageOff size={16} />
+                  <span>Logo introuvable (/public/logo.png)</span>
+                </div>
+              )}
             </div>
           </div>
 
