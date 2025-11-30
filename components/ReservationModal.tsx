@@ -51,7 +51,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     };
 
     try {
-      const response = await fetch('https://n8n.srv1150184.hstgr.cloud/webhook-test/522d22b9-2b89-4d10-b570-68783d532290', {
+      const response = await fetch('https://n8n.srv1150184.hstgr.cloud/webhook/522d22b9-2b89-4d10-b570-68783d532290', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
               </div>
               <h4 className="text-2xl font-bold text-slate-800 mb-2">Merci !</h4>
               <p className="text-slate-600 mb-6 max-w-xs mx-auto">
-                Votre demande de réservation a bien été prise en compte. Une confirmation par mail vous a été envoyée.
+                Votre demande de réservation a bien été prise en compte. Une confirmation par mail vous a été envoyée (verifiez vos spams 😉).
               </p>
               <button 
                 onClick={onClose}
