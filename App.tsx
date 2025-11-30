@@ -32,7 +32,7 @@ const App: React.FC = () => {
             {/* Arrow and Partner Logo */}
             <div className="flex items-center gap-3">
               <ArrowRight className="text-slate-300" size={24} />
-              <img src="/logo.png" alt="Le Taxi de Stef" className="h-12 object-contain mt-1" />
+              <img src="/logo.png" alt="Le Taxi de Stef" className="h-12 w-auto object-contain" />
             </div>
           </div>
 
