@@ -166,8 +166,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
   return (
     <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
       <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-        <span className="bg-taxi-yellow text-taxi-black p-1 rounded">TAXI</span>
-        <span>RESA</span>
+        <span className="bg-taxi-yellow text-taxi-black p-1 rounded">LE TAXI</span>
+        <span>DE STEF</span>
       </h2>
 
       <div className="space-y-4">
