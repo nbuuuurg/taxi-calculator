@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import MapViewer from './components/MapViewer';
 import PriceEstimator from './components/PriceEstimator';
+import CookieBanner from './components/CookieBanner';
+import LegalNotice from './components/LegalNotice';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { Car, Phone, ArrowRight, ImageOff } from 'lucide-react';
+
+// Define available views
+type ViewState = 'home' | 'legal' | 'privacy';
 
 const App: React.FC = () => {
   // State
+  const [currentView, setCurrentView] = useState<ViewState>('home');
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [date, setDate] = useState(new Date());
@@ -13,15 +20,18 @@ const App: React.FC = () => {
   const [calculatedDistance, setCalculatedDistance] = useState(0);
   const [logoError, setLogoError] = useState(false);
 
+  // Function to reset view to home
+  const goHome = () => setCurrentView('home');
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-900 bg-slate-50">
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
-          {/* Desktop/Tablet Logo Section */}
+          {/* Desktop/Tablet Logo Section - HIDDEN ON MOBILE */}
           <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={goHome}>
               <div className="bg-amber-400 p-2 rounded-lg text-slate-900">
                 <Car size={24} />
               </div>
@@ -38,7 +48,8 @@ const App: React.FC = () => {
                 <img 
                   src="/logo.png" 
                   alt="Le Taxi de Stef" 
-                  className="h-12 w-auto object-contain"
+                  className="h-12 w-auto object-contain cursor-pointer"
+                  onClick={goHome}
                   onError={() => setLogoError(true)}
                 />
               ) : (
@@ -50,7 +61,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Header Content (Centered Phone) */}
+          {/* Mobile Header Content (Centered Phone) - ONLY VISIBLE ON MOBILE */}
           <div className="md:hidden w-full flex justify-center">
              <a href="tel:0749068665" className="flex items-center gap-2 bg-slate-900 text-white px-6 py-2 rounded-full shadow-md active:scale-95 transition-transform">
                 <Phone size={18} />
@@ -60,8 +71,8 @@ const App: React.FC = () => {
 
           {/* Desktop Navigation (Right Side) */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
-            <a href="https://www.letaxidestef.fr/contact/" className="hover:text-amber-500 transition-colors">Contact</a>
-            <a href="https://www.letaxidestef.fr/" className="hover:text-amber-500 transition-colors">Entreprises</a>
+            <a href="https://allotaxietampes.fr/" className="hover:text-amber-500 transition-colors">Services</a>
+            <a href="https://allotaxietampes.fr/" className="hover:text-amber-500 transition-colors">Entreprises</a>
             <button className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors">
               <Phone size={16} />
               <span>07 49 06 86 65</span>
@@ -72,47 +83,47 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
-          
-          {/* Left Column: Form (4 cols) */}
-          <div className="lg:col-span-4 space-y-6">
-            <BookingForm 
-              origin={origin}
-              setOrigin={setOrigin}
-              destination={destination}
-              setDestination={setDestination}
-              date={date}
-              setDate={setDate}
-              isRoundTrip={isRoundTrip}
-              setIsRoundTrip={setIsRoundTrip}
-            />
-            
-            <div className="hidden lg:block bg-amber-50 p-6 rounded-2xl border border-amber-100">
-              <h4 className="font-bold text-amber-900 mb-2">Pourquoi nous choisir ?</h4>
-              <ul className="space-y-2 text-sm text-amber-800/80">
-                <li className="flex items-center gap-2">✓ Chauffeurs certifiés</li>
-                <li className="flex items-center gap-2">✓ Tarifs réglementés</li>
-                <li className="flex items-center gap-2">✓ Disponibilité 24/7</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Right Column: Map & Estimate (8 cols) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            
-            {/* Map Section - Flexible Height */}
-            <div className="h-[300px] lg:h-[450px] w-full">
-              <MapViewer 
+        
+        {currentView === 'home' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full animate-in fade-in duration-500">
+            {/* Left Column: Form (4 cols) */}
+            <div className="lg:col-span-4 space-y-6">
+              <BookingForm 
                 origin={origin}
+                setOrigin={setOrigin}
                 destination={destination}
-                onDistanceCalculated={setCalculatedDistance}
-                className="h-full shadow-lg border-2 border-white"
+                setDestination={setDestination}
+                date={date}
+                setDate={setDate}
+                isRoundTrip={isRoundTrip}
+                setIsRoundTrip={setIsRoundTrip}
               />
+              
+              <div className="hidden lg:block bg-amber-50 p-6 rounded-2xl border border-amber-100">
+                <h4 className="font-bold text-amber-900 mb-2">Pourquoi nous choisir ?</h4>
+                <ul className="space-y-2 text-sm text-amber-800/80">
+                  <li className="flex items-center gap-2">✓ Chauffeurs certifiés</li>
+                  <li className="flex items-center gap-2">✓ Tarifs réglementés</li>
+                  <li className="flex items-center gap-2">✓ Disponibilité 24/7</li>
+                </ul>
+              </div>
             </div>
 
-            {/* Estimate Section */}
-            <div className="flex-1">
-               {calculatedDistance > 0 ? (
+            {/* Right Column: Map & Estimate (8 cols) */}
+            <div className="lg:col-span-8 flex flex-col gap-6">
+              
+              {/* Map Section - Flexible Height */}
+              <div className="h-[300px] lg:h-[450px] w-full">
+                <MapViewer 
+                  origin={origin}
+                  destination={destination}
+                  onDistanceCalculated={setCalculatedDistance}
+                  className="h-full shadow-lg border-2 border-white"
+                />
+              </div>
+
+              {/* Estimate Section */}
+              <div className="flex-1">
                  <PriceEstimator 
                     origin={origin}
                     destination={destination}
@@ -120,26 +131,46 @@ const App: React.FC = () => {
                     date={date}
                     isRoundTrip={isRoundTrip}
                  />
-               ) : (
-                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center h-full flex flex-col items-center justify-center text-slate-400">
-                    <Car className="w-16 h-16 mb-4 opacity-20" />
-                    <p className="text-lg font-medium text-slate-600">En attente de trajet...</p>
-                    <p className="text-sm">Remplissez les adresses pour voir l'estimation.</p>
-                 </div>
-               )}
+              </div>
             </div>
           </div>
+        )}
 
-        </div>
+        {currentView === 'legal' && (
+          <div className="animate-in fade-in slide-in-from-right-10 duration-500">
+            <LegalNotice onBack={goHome} />
+          </div>
+        )}
+
+        {currentView === 'privacy' && (
+          <div className="animate-in fade-in slide-in-from-right-10 duration-500">
+            <PrivacyPolicy onBack={goHome} />
+          </div>
+        )}
+
       </main>
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 mt-auto py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>© {new Date().getFullYear()} Taxi Resa France. Tous droits réservés.</p>
-          <p className="mt-2 text-xs">Application de démonstration respectant la réglementation tarifaire préfectorale en vigueur.</p>
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} Le Taxi de Stef. Tous droits réservés.</p>
+          <div className="mt-4 flex justify-center gap-6 text-xs text-slate-400">
+            <button onClick={() => setCurrentView('legal')} className="hover:text-amber-600 hover:underline transition-colors">
+              Mentions Légales
+            </button>
+            <button onClick={() => setCurrentView('privacy')} className="hover:text-amber-600 hover:underline transition-colors">
+              Politique de Confidentialité
+            </button>
+            <span>Code NAF 4932Z</span>
+          </div>
+          <p className="mt-4 text-[10px] text-slate-300 max-w-md mx-auto">
+            Application de démonstration respectant la réglementation tarifaire préfectorale en vigueur.
+          </p>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      <CookieBanner />
     </div>
   );
 };

@@ -50,8 +50,19 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       "aller-retour": isRoundTrip
     };
 
+    // Access environment variable safely
+    // Note: In Vite, variables must be prefixed with VITE_ to be exposed to the client
+    const webhookUrl = (import.meta as any).env.VITE_N8N_WEBHOOK_URL;
+
+    if (!webhookUrl) {
+      console.error("Configuration Error: VITE_N8N_WEBHOOK_URL is missing.");
+      alert("Erreur de configuration du serveur. Veuillez contacter l'administrateur.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      const response = await fetch('https://n8n.srv1150184.hstgr.cloud/webhook/522d22b9-2b89-4d10-b570-68783d532290', {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
