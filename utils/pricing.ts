@@ -32,12 +32,22 @@ export const calculateFare = (
   const tarifType = determineTarif(date, isRoundTrip);
   const rule = TARIFS[tarifType];
 
-  const distanceFare = distanceKm * rule.pricePerKm;
-  const total = BASE_FARE + distanceFare;
+  let distanceFare = distanceKm * rule.pricePerKm;
+  let total = BASE_FARE + distanceFare;
+  let finalBaseFare = BASE_FARE;
+
+  if (isRoundTrip) {
+    // "le prix affiché soit multiplié par deux"
+    // On multiplie le total par 2
+    total *= 2;
+    // On ajuste les composants pour que l'addition reste cohérente (Base + Distance = Total)
+    finalBaseFare *= 2;
+    distanceFare *= 2;
+  }
 
   return {
     total: parseFloat(total.toFixed(2)),
-    baseFare: BASE_FARE,
+    baseFare: parseFloat(finalBaseFare.toFixed(2)),
     distanceFare: parseFloat(distanceFare.toFixed(2)),
     distanceKm: parseFloat(distanceKm.toFixed(2)),
     appliedTarif: tarifType,
