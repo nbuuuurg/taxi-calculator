@@ -52,10 +52,10 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 
     // Access environment variable safely
     // Note: In Vite, variables must be prefixed with VITE_ to be exposed to the client
-    const webhookUrl = (import.meta as any).env.VITE_N8N_WEBHOOK_URL;
+    const webhookUrl = (import.meta as any).env.N8N_WEBHOOK_URL;
 
     if (!webhookUrl) {
-      console.error("Configuration Error: VITE_N8N_WEBHOOK_URL is missing.");
+      console.error("Configuration Error: N8N_WEBHOOK_URL is missing.");
       alert("Erreur de configuration du serveur. Veuillez contacter l'administrateur.");
       setIsSubmitting(false);
       return;
