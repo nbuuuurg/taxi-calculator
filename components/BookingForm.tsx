@@ -165,10 +165,21 @@ const BookingForm: React.FC<BookingFormProps> = ({
 }) => {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
-      <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+      <h2 className="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
         <span className="bg-taxi-yellow text-taxi-black p-1 rounded">LE TAXI</span>
         <span>DE STEF</span>
       </h2>
+
+      {/* CPAM Badge Section */}
+      <div className="flex items-center gap-2 mb-6 ml-1">
+        <div className="relative flex h-2.5 w-2.5">
+           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-sm shadow-emerald-200"></span>
+        </div>
+        <span className="text-[11px] font-bold text-emerald-700/80 uppercase tracking-widest bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+          Chauffeur conventionné CPAM
+        </span>
+      </div>
 
       <div className="space-y-4">
         {/* Origin with Autocomplete */}
